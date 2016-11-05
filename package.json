@@ -1,0 +1,17 @@
+{
+  "name": "birdwatcher",
+  "version": "1.0.0",
+  "description": "A Raspberry Pi GPIO experiment",
+  "main": "source/app.js",
+  "dependencies": {
+    "ds18b20": "^0.1.0",
+    "onoff": "^1.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node source/app.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
