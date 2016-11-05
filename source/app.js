@@ -44,8 +44,8 @@ function temperature(ds18b20, sensor) {
 
 sensors(ds18b20).then((ids) => {
   console.log(JSON.stringify(ids));
-  return ids.reduce((id) => {
-    return temperature(ds18b20, id);
+  return ids.reduce((promise, id) => {
+    return promise.then(temperature(ds18b20, id));
   }, Promise.resolve());
   // return Promise.all(ids.map(id => {
   //   return temperature(ds18b20, id);
