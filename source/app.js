@@ -35,7 +35,7 @@ function temperature(ds18b20, sensor) {
         reject(err);
       }
       else {
-        console.log(value);
+        console.log(sensor + ': ' + value);
         resolve(value);
       }
     })
