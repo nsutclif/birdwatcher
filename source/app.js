@@ -1,6 +1,9 @@
 "use strict";
 
-// let Gpio = require('onoff').Gpio;
+// Installing Node on Raspberry Pi:
+// http://www.robert-drummond.com/2015/01/08/server-side-javascript-on-a-raspberry-pi-how-to-install-node-js-2/
+
+// let Gpio = require('onoff').Gpio; // https://github.com/fivdi/onoff
 
 // // relays: 17, 27, 22, 23
 
@@ -11,9 +14,10 @@
 // setTimeout(() => {
 //   relay1.writeSync(1);
 // }, 500);
-
-
-let ds18b20 = require("ds18b20");
+ 
+// Wiring ds18b20 Temperature Sensors:
+// https://learn.adafruit.com/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing/ds18b20
+let ds18b20 = require("ds18b20"); // https://github.com/chamerling/ds18b20
 
 function sensors(ds18b20) {
   return new Promise((resolve, reject) => {
