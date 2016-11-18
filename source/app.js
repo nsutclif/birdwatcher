@@ -19,7 +19,19 @@ setTimeout(() => {
 // https://learn.adafruit.com/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing/ds18b20
 
 
+let gateSwitch = new Gpio(18, 'in' );
 
+gateSwitch.watch((err, value) => {
+  if(err) {
+    throw err;
+  } else {
+    console.log("gate: " + value);
+  }
+});
+
+setTimeout(() => {
+
+}, 10000);
 
 
 // let ds18b20 = require("ds18b20"); // https://github.com/chamerling/ds18b20
