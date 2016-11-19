@@ -6,15 +6,29 @@
 let Gpio = require('onoff').Gpio; // https://github.com/fivdi/onoff
 
 // relays: 17, 27, 22, 23
+//let relay1 = new Gpio(27, 'out');
 
-let relay1 = new Gpio(17, 'out');
+let relayPins = [23, 22, 27, 17];
+let relays = relayPins.map(pin => new Gpio(pin, 'out'));
+let relayNormallyOpen = [false, false, true, true];
 
-relay1.writeSync(0);
+relays.map((relay, index) => { 
+  setTimeout(() => {
+    relay.writeSync(+ relayNormallyOpen[index]);
+  }, index * 2000 );
 
-setTimeout(() => {
-  relay1.writeSync(1);
-}, 500);
- 
+  setTimeout(() => {
+    relay.writeSync(+ !relayNormallyOpen[index]);
+  }, 10000 + index * 2000 );
+});
+
+
+//relays[0].writeSync(1);
+
+//setTimeout(() => {
+//  relays[1].writeSync(0);
+//}, 2000);
+
 // 3v -> switch COM
 // switch ON -> 1K (Brown/Black/Red) Resistor
 // 1K Resistor -> GPIO
