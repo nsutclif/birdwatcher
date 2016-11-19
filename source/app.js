@@ -15,24 +15,26 @@ setTimeout(() => {
   relay1.writeSync(1);
 }, 500);
  
+// 3v -> switch COM
+// switch ON -> 1K (Brown/Black/Red) Resistor
+// 1K Resistor -> GPIO
+
+// let gateSwitch = new Gpio(18, 'in', 'both' );
+
+// let count = 0;
+
+// gateSwitch.watch((err, value) => {
+//   if(err) {
+//     throw err;
+//   } else {
+//     console.log(count++ + ': ' + value);
+//   }
+// });
+
+
+
 // Wiring ds18b20 Temperature Sensors:
 // https://learn.adafruit.com/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing/ds18b20
-
-
-let gateSwitch = new Gpio(18, 'in' );
-
-gateSwitch.watch((err, value) => {
-  if(err) {
-    throw err;
-  } else {
-    console.log("gate: " + value);
-  }
-});
-
-setTimeout(() => {
-
-}, 10000);
-
 
 // let ds18b20 = require("ds18b20"); // https://github.com/chamerling/ds18b20
 
