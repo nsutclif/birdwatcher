@@ -38,7 +38,7 @@ setTimeout(() => {
 
 let ds18b20Promise = require('./ds18b20-promise');
 
-ds18b20Promise.sensors.then((ids) => {
+ds18b20Promise.sensors().then((ids) => {
   console.log(JSON.stringify(ids));
   // return ids.reduce((promise, id) => {
   //   return promise.then(temperature(ds18b20, id));
