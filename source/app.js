@@ -67,10 +67,12 @@ function logTemperatures() {
 };
 
 setInterval(() => {
+  console.log(new Date().toISOString());
+
   let currentHour = new Date().getHours();
   let lampOn = (currentHour >= 7) && (currentHour < 21);
   
-  relays[0].writeSync(+ lampOn === relayNormallyOpen[0]);
+  relays[0].writeSync(+(lampOn === relayNormallyOpen[0]));
 
   logTemperatures();
 }, 10000);
