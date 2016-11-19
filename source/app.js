@@ -44,8 +44,10 @@ ds18b20Promise.sensors().then((ids) => {
   //   return promise.then(temperature(ds18b20, id));
   // }, Promise.resolve());
   return Promise.all(ids.map(id => {
-    return temperature(ds18b20, id);
+    return temperature(ds18b20, id).then((temperature) => {
+      return Promise.resolve({sensor: id, temperature: temperature});
+    });
   }));
-}).then(() => {
-  //console.log(JSON.stringify(temperatures));
+}).then((temperatures) => {
+  console.log(JSON.stringify(temperatures));
 });
