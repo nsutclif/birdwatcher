@@ -12,15 +12,15 @@ let relayPins = [23, 22, 27, 17];
 let relays = relayPins.map(pin => new Gpio(pin, 'out'));
 let relayNormallyOpen = [false, false, true, true];
 
-relays.map((relay, index) => { 
-  setTimeout(() => {
-    relay.writeSync(+ relayNormallyOpen[index]);
-  }, index * 2000 );
+// relays.map((relay, index) => { 
+//   setTimeout(() => {
+//     relay.writeSync(+ relayNormallyOpen[index]);
+//   }, index * 2000 );
 
-  setTimeout(() => {
-    relay.writeSync(+ !relayNormallyOpen[index]);
-  }, 10000 + index * 2000 );
-});
+//   setTimeout(() => {
+//     relay.writeSync(+ !relayNormallyOpen[index]);
+//   }, 10000 + index * 2000 );
+// });
 
 
 //relays[0].writeSync(1);
@@ -70,7 +70,7 @@ setInterval(() => {
   let currentHour = new Date().getHours();
   let lampOn = (currentHour >= 7) && (currentHour < 21);
   
-  relays[0].writeSync(+ lampOn != relayNormallyOpen[0]);
+  relays[0].writeSync(+ lampOn === relayNormallyOpen[0]);
 
   logTemperatures();
 }, 10000);
