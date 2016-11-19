@@ -36,7 +36,7 @@ setTimeout(() => {
 // Wiring ds18b20 Temperature Sensors:
 // https://learn.adafruit.com/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing/ds18b20
 
-let ds18b20Promise = requie('./ds18b20-promise');
+let ds18b20Promise = require('./ds18b20-promise');
 
 ds18b20Promise.sensors.then((ids) => {
   console.log(JSON.stringify(ids));
