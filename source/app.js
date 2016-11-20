@@ -52,27 +52,41 @@ let relayNormallyOpen = [false, false, true, true];
 
 let ds18b20Promise = require('./ds18b20-promise');
 
-function logTemperatures() {
-  ds18b20Promise.sensors().then(ids => {
+function readTemperatures() {
+  return ds18b20Promise.sensors().then(ids => {
     return Promise.all(ids.map(id => {
       return ds18b20Promise.temperature(id).then(temperature => {
         return Promise.resolve({sensor: id, temperature: temperature});
       });
     }));
-  }).then(temperatures => {
+  });
+};
+
+const TRIGGER_SENSOR = '28-0215648c60ff';
+
+setInterval(() => {
+  console.log(new Date());
+
+  const currentHour = new Date().getHours();
+  const lightOn = (currentHour >= 7) && (currentHour < 21);
+  
+  relays[0].writeSync(+(lightOn === relayNormallyOpen[0]));
+
+  readTemperatures().then(temperatures => {
+    const triggerSensorReading = temperatures.find(temperature => {
+      result = temperature.id === TRIGGER_SENSOR;
+    });
+
+    if (!triggerSensorReading) {
+      throw new Error('Trigger sensor not found!');
+    }
+
+    const heatLampOn = triggerSensorReading.temperature < 21;
+    
+    relays[2].writeSync(+(heatLampOn === relayNormallyOpen[0]));
+
     console.log(JSON.stringify(temperatures));
   }).catch(error => {
     console.log('Error reading temperatures: ' + error);
   });
-};
-
-setInterval(() => {
-  console.log(new Date().toISOString());
-
-  let currentHour = new Date().getHours();
-  let lampOn = (currentHour >= 7) && (currentHour < 21);
-  
-  relays[0].writeSync(+(lampOn === relayNormallyOpen[0]));
-
-  logTemperatures();
 }, 10000);
