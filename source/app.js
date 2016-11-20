@@ -74,16 +74,16 @@ setInterval(() => {
 
   readTemperatures().then(temperatures => {
     const triggerSensorReading = temperatures.find(temperature => {
-      return temperature.id === TRIGGER_SENSOR;
+      return temperature.sensor === TRIGGER_SENSOR;
     });
 
     if (!triggerSensorReading) {
       throw new Error('Trigger sensor not found!');
     }
-
+    console.log(JSON.stringify(triggerSensorReading));
     const heatLampOn = triggerSensorReading.temperature < 21;
     
-    relays[2].writeSync(+(heatLampOn === relayNormallyOpen[0]));
+    relays[2].writeSync(+(heatLampOn === relayNormallyOpen[2]));
 
     console.log(JSON.stringify(temperatures));
   }).catch(error => {
