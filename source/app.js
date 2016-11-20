@@ -74,7 +74,7 @@ setInterval(() => {
 
   readTemperatures().then(temperatures => {
     const triggerSensorReading = temperatures.find(temperature => {
-      result = temperature.id === TRIGGER_SENSOR;
+      return temperature.id === TRIGGER_SENSOR;
     });
 
     if (!triggerSensorReading) {
