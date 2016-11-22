@@ -14,5 +14,6 @@
     "start": "node source/app.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": "nsutclif/birdwatcher"
 }
