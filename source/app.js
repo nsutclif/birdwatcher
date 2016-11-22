@@ -48,8 +48,6 @@ function readTemperatures() {
 const TRIGGER_SENSOR = '28-0215648c60ff';
 
 setInterval(() => {
-  console.log(new Date());
-
   const currentHour = new Date().getHours();
   state.lightOn = (currentHour >= 7) && (currentHour < 21);
   
