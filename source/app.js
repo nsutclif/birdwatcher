@@ -12,38 +12,21 @@ let relayPins = [23, 22, 27, 17];
 let relays = relayPins.map(pin => new Gpio(pin, 'out'));
 let relayNormallyOpen = [false, false, true, true];
 
-// relays.map((relay, index) => { 
-//   setTimeout(() => {
-//     relay.writeSync(+ relayNormallyOpen[index]);
-//   }, index * 2000 );
-
-//   setTimeout(() => {
-//     relay.writeSync(+ !relayNormallyOpen[index]);
-//   }, 10000 + index * 2000 );
-// });
-
-
-//relays[0].writeSync(1);
-
-//setTimeout(() => {
-//  relays[1].writeSync(0);
-//}, 2000);
+let state = {};
 
 // 3v -> switch COM
 // switch ON -> 1K (Brown/Black/Red) Resistor
 // 1K Resistor -> GPIO
 
-// let gateSwitch = new Gpio(18, 'in', 'both' );
+let gateSwitch = new Gpio(18, 'in', 'both' );
 
-// let count = 0;
-
-// gateSwitch.watch((err, value) => {
-//   if(err) {
-//     throw err;
-//   } else {
-//     console.log(count++ + ': ' + value);
-//   }
-// });
+gateSwitch.watch((err, value) => {
+  if(err) {
+    throw err;
+  } else {
+    state.gateOpen === 1;
+  }
+});
 
 
 
@@ -68,11 +51,13 @@ setInterval(() => {
   console.log(new Date());
 
   const currentHour = new Date().getHours();
-  const lightOn = (currentHour >= 7) && (currentHour < 21);
+  state.lightOn = (currentHour >= 7) && (currentHour < 21);
   
-  relays[0].writeSync(+(lightOn === relayNormallyOpen[0]));
+  relays[0].writeSync(+(state.lightOn === relayNormallyOpen[0]));
 
   readTemperatures().then(temperatures => {
+    state.temperatures = temperatures;
+
     const triggerSensorReading = temperatures.find(temperature => {
       return temperature.sensor === TRIGGER_SENSOR;
     });
@@ -81,12 +66,24 @@ setInterval(() => {
       throw new Error('Trigger sensor not found!');
     }
     console.log(JSON.stringify(triggerSensorReading));
-    const heatLampOn = triggerSensorReading.temperature < 21;
+    state.heatLampOn = triggerSensorReading.temperature < 21;
     
-    relays[2].writeSync(+(heatLampOn === relayNormallyOpen[2]));
+    relays[2].writeSync(+(state.heatLampOn === relayNormallyOpen[2]));
 
     console.log(JSON.stringify(temperatures));
   }).catch(error => {
     console.log('Error reading temperatures: ' + error);
   });
 }, 10000);
+
+
+var express = require('express');
+var app = express();
+
+app.route('/')
+  .get( (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(sensor));
+  });
+
+app.listen(80);
