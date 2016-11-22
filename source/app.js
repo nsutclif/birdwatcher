@@ -65,12 +65,9 @@ setInterval(() => {
     if (!triggerSensorReading) {
       throw new Error('Trigger sensor not found!');
     }
-    console.log(JSON.stringify(triggerSensorReading));
     state.heatLampOn = triggerSensorReading.temperature < 21;
     
     relays[2].writeSync(+(state.heatLampOn === relayNormallyOpen[2]));
-
-    console.log(JSON.stringify(temperatures));
   }).catch(error => {
     console.log('Error reading temperatures: ' + error);
   });
@@ -83,7 +80,7 @@ var app = express();
 app.route('/')
   .get( (req, res) => {
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(sensor));
+    res.send(JSON.stringify(state));
   });
 
 app.listen(80);
