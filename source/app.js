@@ -48,6 +48,8 @@ function readTemperatures() {
 const TRIGGER_SENSOR = '28-0215648c60ff';
 
 setInterval(() => {
+  console.log(new Date());
+
   const currentHour = new Date().getHours();
   state.lightOn = (currentHour >= 7) && (currentHour < 21);
   
@@ -63,7 +65,7 @@ setInterval(() => {
     if (!triggerSensorReading) {
       throw new Error('Trigger sensor not found!');
     }
-    state.heatLampOn = triggerSensorReading.temperature < 21;
+    state.heatLampOn = triggerSensorReading.temperature < 8;
     
     relays[2].writeSync(+(state.heatLampOn === relayNormallyOpen[2]));
   }).catch(error => {
